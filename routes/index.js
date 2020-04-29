@@ -23,7 +23,6 @@ router.get('/collect_goods_list', function(req, res, next) {
   mainHandler.collectGoodsList(req, res, next);
 });
 
-collectLosts
 // 收藏失物
 router.get('/collect_losts', function(req, res, next) {
   mainHandler.collectLosts(req, res, next);

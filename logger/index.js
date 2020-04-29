@@ -4,7 +4,7 @@
 
 module.exports = function (fileName) {
     const loggerBase = require('./newLoggerBase');
-    loggerBase.init(process.appInfo.mine.id);
+    // loggerBase.init(process.appInfo.mine.id);
   
     return {
       commonLogger: loggerBase.getLogger("common", fileName),

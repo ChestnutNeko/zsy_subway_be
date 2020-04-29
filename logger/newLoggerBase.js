@@ -46,7 +46,7 @@ const colours = {
 };
 
 newLoggerBase.init = function (serverId) {
-    let specialConfig = require('../../app/util/configReader').getSpecialConfig();
+    // let specialConfig = require('../util/configReader').getSpecialConfig();
 
     // specialConfig.logger.layout配置的是日志格式，区别线上和开发环境
     let layout = {};
@@ -106,7 +106,7 @@ newLoggerBase.init = function (serverId) {
 
 newLoggerBase.getLogger = function (loggerType, filename) {
     const logger = log4js.getLogger(loggerType);
-    let specialConfig = require('../../app/util/configReader').getSpecialConfig();
+    // let specialConfig = require('../util/configReader').getSpecialConfig();
 
     const newLogger = {};
     for (const key in logger) {
