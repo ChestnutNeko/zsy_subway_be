@@ -1,19 +1,8 @@
-/*
-SQLyog 企业版 - MySQL GUI v8.14 
-MySQL - 5.5.40 : Database - test
-*********************************************************************
-*/
+/**
+ * mysql
+ */
 
-
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`zsy_subway_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE `zsy_subway_db`;
 
 USE `zsy_subway_db`;
 
@@ -98,8 +87,3 @@ CREATE TABLE `the_lost_list` (
 /*Data for the table `the_lost_list` */
 
 insert into `the_lost_list`(`the_lost_id`,`the_lost_name`,`the_lost_city`,`the_lost_value`,`the_lost_date`,`the_lost_position`,`the_lost_telephone`,`the_lost_collect`) values (20,'liz','iphone6s', 2000,'2020-03-03 11:06:28','经海路站','13900001111',0),(21,'zsy','书包', 888,'2020-02-05 13:06:28','黑龙江大学站','13522345001',1);
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
