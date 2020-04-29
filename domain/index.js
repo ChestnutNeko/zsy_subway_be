@@ -1,9 +1,10 @@
 /**
  * 后端操作
  */
-const mainHandler = module.exports;
+
 const subwayDao = require('../dao/index');
-// const commonLogger = require('../../../logger/func/loggers')(__filename).commonLogger;
+const commonLogger = require('../logger/index')(__filename).commonLogger;
+const mainHandler = module.exports;
 
 mainHandler.insertLosts = async function(req, res, next) {
     let params = req.reqInfo.params;

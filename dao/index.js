@@ -1,7 +1,8 @@
 /**
  * MySQL底层操作
  */
-// const commonLogger = require('../../../../logger/func/loggers')(__filename).commonLogger;
+
+const commonLogger = require('../logger/index')(__filename).commonLogger;
 const subwayDao = module.exports;
 
 // 新增失物
