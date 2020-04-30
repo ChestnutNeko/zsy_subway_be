@@ -6,11 +6,12 @@ const subwayDao = require('../dao/index');
 const commonLogger = require('../logger/index')(__filename).commonLogger;
 const mainHandler = module.exports;
 
+// 输入失物名称、失物城市、失物价值、领取点、领取点电话增加失物
 mainHandler.insertLosts = async function(req, res, next) {
     let params = req.reqInfo.params;
-    let { name, city, value, date, location, telephone } = params
+    let { theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone } = params
     try {
-        if(!name || !city || !value || !date || !location || !telephone) {
+        if(!theLostName || !theLostCity || !theLostValue || !theLostPosition || !theLostTelephone ) {
             commonLogger.error("[mainHander] [insertLosts] error ", "传参错误");
             throw new Error("传参错误");
         }
@@ -25,10 +26,11 @@ mainHandler.insertLosts = async function(req, res, next) {
     }
 }
 
+// 当前页、每页多少条展示失物列表，失物名称搜索
 mainHandler.getGoodsList = async function(req, res, next) {
     //取前端传参
     let params = req.reqInfo.params;
-    let { page, pageSize, goodsName } = params
+    let { page, pageSize, theLostName } = params
     try {
         //做参数校验，看传参的值是否标准，这里判断了是否传了这个值和这个值是否是数字
         if (!page || !pageSize || isNaN(page) || isNaN(pageSize)) {
@@ -42,25 +44,25 @@ mainHandler.getGoodsList = async function(req, res, next) {
         //isCount为1是返回数据条数，isCount为2是返回数据
         let limit = pageSize;
         let offset = (page - 1) * pageSize;
-        let num = await subwayDao.getGoodsList(1, goodsName, limit, offset);
+        let num = await subwayDao.getGoodsList(1, theLostName, limit, offset);
 
         //求总条数和总页数
         let totalNum = num[0].num;
         let pages = Math.ceil(totalNum / pageSize);
 
-
-        let list = await subwayDao.getGoodsList(2, goodsName, limit, offset)
+        let list = await subwayDao.getGoodsList(2, theLostName, limit, offset)
             //制作数据
         let data = []
         for (let i of list) {
             let tmpObj = {
-                // goodsId: i.goodsId,
-                goodsName: i.goodsName,
-                goodsCity: i.goodsCity,
-                goodsValue: i.goodsValue,
-                goodsDate: i.goodsDate,
-                goodsLocation: i.goodsLocation,
-                goodsTelephone: i.goodsTelephone
+                theLostId: i.theLostId,
+                theLostName: i.theLostName,
+                theLostCity: i.theLostCity,
+                theLostValue: i.theLostValue,
+                theLostDate: i.theLostDate,
+                theLostPosition: i.theLostPosition,
+                theLostTelephone: i.theLostTelephone,
+                theLostCollect: i.theLostCollect
             };
             data.push(tmpObj);
         }
@@ -76,6 +78,7 @@ mainHandler.getGoodsList = async function(req, res, next) {
     }
 }
 
+// 当前页、每页多少条展示收藏失物列表，失物名称搜索
 mainHandler.collectGoodsList = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { page, pageSize, goodsName } = params
@@ -113,6 +116,7 @@ mainHandler.collectGoodsList = async function(req, res, next) {
     }
 }
 
+// 根据id收藏失物
 mainHandler.collectLosts = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { id } = params
@@ -132,6 +136,7 @@ mainHandler.collectLosts = async function(req, res, next) {
     }
 }
 
+// 根据id取消收藏失物
 mainHandler.deleteLosts = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { id } = params
@@ -150,6 +155,7 @@ mainHandler.deleteLosts = async function(req, res, next) {
     }
 }
 
+// 根据id收藏路线
 mainHandler.collectRoutes = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { id } = params
@@ -169,6 +175,7 @@ mainHandler.collectRoutes = async function(req, res, next) {
     }
 }
 
+// 当前页、每页多少条显示列表，路线名搜索
 mainHandler.getRoutesList = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { page, pageSize, routesName } = params
@@ -206,6 +213,7 @@ mainHandler.getRoutesList = async function(req, res, next) {
     }
 }
 
+// 根据id删除收藏路线
 mainHandler.deleteRoutes = async function(req, res, next) {
     let params = req.reqInfo.params;
     let { id } = params
@@ -224,15 +232,16 @@ mainHandler.deleteRoutes = async function(req, res, next) {
     }
 }
 
+// 用户更新信息
 mainHandler.updateUser = async function(req, res, next) {
     let params = req.reqInfo.params;
-    let { id, name, password, city, telephone, subway, email } = params
+    let { userId, userName, userPassword, userType, userCity, userTelephone, userSubway, userEmail } = params
     try {
-        if (!id || !name || !password || !city || !telephone || !subway || !email) {
+        if (!userId || !userName || !userPassword || !userType || !userCity || !userTelephone || !userSubway || !userEmail) {
             commonLogger.error("[mainHandler] [updateUser] error ", "传参错误");
             throw new Error("传参错误");
         }
-        res.resInfo.resObj = { msg: '获取用户信息成功', body: { id, name, password, city, telephone, subway, email } };
+        res.resInfo.resObj = { msg: '获取用户信息成功', body: { userId, userName, userPassword, userType, userCity, userTelephone, userSubway, userEmail } };
         next();
     } catch (error) {
         commonLogger.error("[mainHandler] [updateUser] error : ", error.message);
@@ -242,15 +251,19 @@ mainHandler.updateUser = async function(req, res, next) {
     }
 }
 
+// 输入用户名、密码登录
 mainHandler.userInfo = async function(req, res, next) {
     let params = req.reqInfo.params;
-    let { name, password } = params
+    let { userName, userPassword } = params
     try {
-        if (!id || !name || !password || !city || !telephone || !subway || !email) {
+        if (!userName || !userPassword) {
             commonLogger.error("[mainHandler] [userInfo] error ", "传参错误");
             throw new Error("传参错误");
         }
-        res.resInfo.resObj = { msg: '获取用户信息成功', body: { id, name, password, city, telephone, subway, email } };
+        let userId = await subwayDao.userInfo(1, params);
+        let userType = await subwayDao.userInfo(2, params);
+        let userType = await subwayDao.userInfo(3, params);
+        res.resInfo.resObj = { msg: '获取用户信息成功', body: { userId, userName, userPassword, userType, userCity, userTelephone, userSubway, userEmail } };
         next();
     } catch (error) {
         commonLogger.error("[mainHandler] [userInfo] error : ", error.message);
@@ -260,15 +273,39 @@ mainHandler.userInfo = async function(req, res, next) {
     }
 }
 
+// 当前页、每页多少条查看列表，用户名搜索
 mainHandler.allInfo = async function(req, res, next) {
     let params = req.reqInfo.params;
-    let { name, password } = params
+    let { page, pageSize, userName } = params
     try {
-        if (!id || !name || !password || !city || !telephone || !subway || !email) {
+        if (!page || !pageSize || isNaN(page) || isNaN(pageSize)) {
             commonLogger.error("[mainHandler] [allInfo] error ", "传参错误");
             throw new Error("传参错误");
         }
-        res.resInfo.resObj = { msg: '获取用户信息成功', body: { id, name, password, city, telephone, subway, email } };
+        let limit = pageSize;
+        let offset = (page - 1) * pageSize;
+        let num = await subwayDao.allInfo(1, userName, limit, offset);
+
+        //求总条数和总页数
+        let totalNum = num[0].num;
+        let pages = Math.ceil(totalNum / pageSize);
+
+        let list = await subwayDao.allInfo(2, userName, limit, offset)
+        let data = []
+        for (let i of list) {
+            let tmpObj = {
+                userId: i.userId,
+                userName: i.userName,
+                userPassword: i.userPassword,
+                userType: i.userType,
+                userCity: i.userCity,
+                userTelephone: i.userTelephone,
+                userSubway: i.userSubway,
+                userEmail: i.userEmail
+            };
+            data.push(tmpObj);
+        }
+        res.resInfo.resObj = { msg: '获取列表成功', body: { page, pages, pageSize, totalNum, data } };
         next();
     } catch (error) {
         commonLogger.error("[mainHandler] [allInfo] error : ", error.message);

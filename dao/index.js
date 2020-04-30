@@ -7,8 +7,8 @@ const subwayDao = module.exports;
 
 // 新增失物
 subwayDao.insertLosts = function(params) {
-    let sql = "INSERT INTO get_the_lost_list (goods_name, goods_city, goods_value, goods_date, goods_location, goods_telephone) VALUES (?,?,?,?,?,?)";
-    let args = [params.name, params.city, params.value, params.date, params.location, params.telephone];
+    let sql = "INSERT INTO the_lost_list (the_lost_name, the_lost_city, the_lost_value, the_lost_position, the_lost_telephone) VALUES (?,?,?,?,?)";
+    let args = [params.theLostName, params.theLostCity, params.theLostValue, params.theLostPosition, params.theLostTelephone];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {
@@ -21,21 +21,21 @@ subwayDao.insertLosts = function(params) {
 }
 
 // 获取失物列表+模糊查询
-subwayDao.getGoodsList = function(isCount, goodsName = "", limit, offset) {
+subwayDao.getGoodsList = function(isCount, theLostName = "", limit, offset) {
     let sql = "";
     let args = [];
     if (isCount === 1) {
-        sql = "SELECT COUNT(*) num FROM get_the_lost_list";
+        sql = "SELECT COUNT(*) num FROM the_lost_list";
     } else {
-        sql = "SELECT goods_name goodsName, goods_city goodsCity, goods_value goodsValue, goods_date goodsDate, goods_location goodsLocation, goods_telephone goodsTelephone " +
-            " FROM get_the_lost_list";
+        sql = "SELECT the_lost_id theLostId, the_lost_name theLostName, the_lost_city theLostCity, the_lost_value theLostValue, the_lost_date theLostDate, the_lost_position theLostPosition, the_lost_telephone theLostTelephone, the_lost_collect theLostCollect " +
+            " FROM the_lost_list";
     }
-    if (!!goodsName) {
-        sql += " WHERE lost_name LIKE (?)"
-        args.push("%" + goodsName + "%");
+    if (!!theLostName) {
+        sql += " WHERE the_lost_name LIKE (?)"
+        args.push("%" + theLostName + "%");
     }
     if (isCount != 1) {
-        sql += '  ORDER BY goods_date LIMIT ? OFFSET ?';
+        sql += '  ORDER BY the_lost_date LIMIT ? OFFSET ?';
         args.push(limit, offset);
     }
     commonLogger.debug("[subwayDao] [getGoodsList] sql: ", sql);
@@ -114,7 +114,7 @@ subwayDao.deleteLosts = function(params) {
 
 // 路线收藏（新增）
 subwayDao.collectRoutes = function(params) {
-    let sql = "INSERT INTO collect_routes (start, end, position) VALUES (?,?,?)";
+    let sql = "INSERT INTO personal_routes (start, end, position) VALUES (?,?,?)";
     let args = [params.start, params.end, params.position];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
@@ -160,7 +160,7 @@ subwayDao.getRoutesList = function(isCount, routesName = "", limit, offset) {
 
 // 取消路线收藏（删除）
 subwayDao.deleteRoutes = function(params) {
-    let sql = "DELETE FROM collect_routes WHERE id = ?";
+    let sql = "DELETE FROM personal_routes WHERE id = ?";
     let args = [params.id];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
@@ -175,7 +175,7 @@ subwayDao.deleteRoutes = function(params) {
 
 // 根据用户id修改个人信息
 subwayDao.updateUser = function(params) {
-    let sql = "UPDATE person_info SET ? WHERE id = ?";
+    let sql = "UPDATE user_info SET ? WHERE user_id = ?";
     let args = [parmas.id, params.name, parmas.password, params.city, params.telephone, params.subway, params.email];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
@@ -190,8 +190,8 @@ subwayDao.updateUser = function(params) {
 
 // 登录（根据用户名和密码）
 subwayDao.userInfo = function(params) {
-    let sql = "SELECT * FROM user_info WHERE name = ? AND password = ?";
-    let args = [parmas.name, params.password];
+    let sql = "SELECT * FROM user_info WHERE user_name = ? AND user_password = ?";
+    let args = [parmas.userName, params.userPassword];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {
@@ -203,15 +203,32 @@ subwayDao.userInfo = function(params) {
         });
 }
 
-// 所有信息展示（管理员查看）
-subwayDao.allInfo = function(params) {
-    let sql = "SELECT * FROM person_info";
-
+// 用户信息列表（管理员查看）
+subwayDao.allInfo = function(isCount, userName = "", limit, offset) {
+    let sql = "";
+    let args = [];
+    if (isCount === 1) {
+        sql = "SELECT COUNT(*) num FROM user_info";
+    } else {
+        sql = "SELECT user_id userId, user_name userName, user_password userPassword, user_type userType, user_city userCity, user_telephone userTelephone, user_subway userSubway, user_email userEmail " +
+            " FROM user_info";
+    }
+    if (!!userName) {
+        sql += " WHERE user_info LIKE (?)"
+        args.push("%" + userName + "%");
+    }
+    if (isCount != 1) {
+        sql += '  ORDER BY user_id LIMIT ? OFFSET ?';
+        args.push(limit, offset);
+    }
+    commonLogger.debug("[subwayDao] [allInfo] sql: ", sql);
+    commonLogger.debug("[subwayDao] [allInfo] args: ", args);
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {
             commonLogger.debug("[subwayDao] [allInfo] result: ", result);
             return result;
         }).catch(function(error) {
+            console.log(error);
             commonLogger.error("[subwayDao] [allInfo] error: ", error.message);
             throw new Error("mysql error");
         });
