@@ -1,8 +1,23 @@
 # zsy_subway 的后台管理系统（Nodejs+Express+MySQL)
 
+### @zhanshiyu
+
+### GitHub:https://github.com/ChestnutNeko
+
+### Email:1014044412@qq.com
+
 ## 项目启动
 
+https://github.com/ChestnutNeko/zsy_subway_be.git
+
 ```
+
+    npm install
+
+```
+
+```
+
     npm start
 
 ```
