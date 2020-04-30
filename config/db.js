@@ -7,7 +7,7 @@ module.exports = {
         host: 'localhost', 
         user: 'root',
         password: '123456',
-        database:'zsy_subway',
+        database:'zsy_subway_db',
         port: 3306
     }
 };

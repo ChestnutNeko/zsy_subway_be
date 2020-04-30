@@ -17,8 +17,8 @@ CREATE TABLE `personal_routes` (
   `routes_name` varchar(255) DEFAULT NULL COMMENT '路线名',
   `routes_start` varchar(255) DEFAULT NULL COMMENT '起始点',
   `routes_end` varchar(255) DEFAULT NULL COMMENT '终点',
-  `routes_time` timestamp NULL DEFAULT current_timestamp COMMENT '创建时间',
-  `routes_collect` int(20) NULL DEFAULT COMMENT '是否可以取消收藏',
+  `routes_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `routes_collect` int(20) DEFAULT NULL COMMENT '是否可以取消收藏',
   PRIMARY KEY (`routes_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
@@ -58,9 +58,9 @@ CREATE TABLE `personal_goods` (
   `the_lost_city` varchar(255) DEFAULT NULL COMMENT '城市',
   `the_lost_value` int(20) DEFAULT NULL COMMENT '预估金额（元）',
   `the_lost_date` timestamp NULL DEFAULT current_timestamp COMMENT '日期',
-  `the_lost_position` varchar(255) NULL DEFAULT COMMENT '领取点',
-  `the_lost_telephone` varchar(255) NULL DEFAULT COMMENT '领取点电话',
-  `the_lost_collect` int(20) NULL DEFAULT COMMENT '是否可以取消收藏',
+  `the_lost_position` varchar(255) DEFAULT NULL COMMENT '领取点',
+  `the_lost_telephone` varchar(255) DEFAULT NULL COMMENT '领取点电话',
+  `the_lost_collect` int(20) DEFAULT NULL COMMENT '是否可以取消收藏',
   PRIMARY KEY (`the_lost_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
@@ -78,9 +78,9 @@ CREATE TABLE `the_lost_list` (
   `the_lost_city` varchar(255) DEFAULT NULL COMMENT '城市',
   `the_lost_value` int(20) DEFAULT NULL COMMENT '预估金额（元）',
   `the_lost_date` timestamp NULL DEFAULT current_timestamp COMMENT '日期',
-  `the_lost_position` varchar(255) NULL DEFAULT COMMENT '领取点',
-  `the_lost_telephone` varchar(255) NULL DEFAULT COMMENT '领取点电话',
-  `the_lost_collect` int(20) NULL DEFAULT COMMENT '是否可以收藏',
+  `the_lost_position` varchar(255) DEFAULT NULL COMMENT '领取点',
+  `the_lost_telephone` varchar(255) DEFAULT NULL COMMENT '领取点电话',
+  `the_lost_collect` int(20) DEFAULT NULL COMMENT '是否可以收藏',
   PRIMARY KEY (`the_lost_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
