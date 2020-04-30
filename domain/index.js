@@ -81,7 +81,7 @@ mainHandler.getGoodsList = async function(req, res, next) {
 // 当前页、每页多少条展示收藏失物列表，失物名称搜索
 mainHandler.collectGoodsList = async function(req, res, next) {
     let params = req.reqInfo.params;
-    let { page, pageSize, goodsName } = params
+    let { page, pageSize, theLostName } = params
     try {
         if (!page || !pageSize || isNaN(page) || isNaN(pageSize)) {
             commonLogger.error("[mainHandler] [collectGoodsList] error ", "传参错误");
@@ -89,20 +89,22 @@ mainHandler.collectGoodsList = async function(req, res, next) {
         }
         let limit = pageSize;
         let offset = (page - 1) * pageSize;
-        let num = await subwayDao.collectGoodsList(1, goodsName, limit, offset);
+        let num = await subwayDao.collectGoodsList(1, theLostName, limit, offset);
 
         let totalNum = num[0].num;
         let pages = Math.ceil(totalNum / pageSize);
-        let list = await subwayDao.collectGoodsList(2, goodsName, limit, offset)
+        let list = await subwayDao.collectGoodsList(2, theLostName, limit, offset)
         let data = []
         for (let i of list) {
             let tmpObj = {
-                goodsId: i.goodsId,
-                goodsName: i.goodsName,
-                goodsCity: i.goodsCity,
-                goodsValue: i.goodsValue,
-                goodsLocation: i.goodsLocation,
-                goodsTelephone: i.goodsTelephone
+                theLostId: i.theLostId,
+                theLostName: i.theLostName,
+                theLostCity: i.theLostCity,
+                theLostValue: i.theLostValue,
+                theLostDate: i.theLostDate,
+                theLostPosition: i.theLostPosition,
+                theLostTelephone: i.theLostTelephone,
+                theLostCollect: i.theLostCollect
             };
             data.push(tmpObj);
         }
@@ -125,7 +127,6 @@ mainHandler.collectLosts = async function(req, res, next) {
             commonLogger.error("[mainHander] [collectLosts] error ", "传参错误");
             throw new Error("传参错误");
         }
-        await subwayDao.insertLosts(params);
         res.resInfo.resObj = { msg: '收藏成功' };
         next();
     } catch (error) {
@@ -164,7 +165,6 @@ mainHandler.collectRoutes = async function(req, res, next) {
             commonLogger.error("[mainHander] [collectRoutes] error ", "传参错误");
             throw new Error("传参错误");
         }
-        await subwayDao.insertLosts(params);
         res.resInfo.resObj = { msg: '收藏成功' };
         next();
     } catch (error) {
@@ -260,9 +260,6 @@ mainHandler.userInfo = async function(req, res, next) {
             commonLogger.error("[mainHandler] [userInfo] error ", "传参错误");
             throw new Error("传参错误");
         }
-        let userId = await subwayDao.userInfo(1, params);
-        let userType = await subwayDao.userInfo(2, params);
-        let userType = await subwayDao.userInfo(3, params);
         res.resInfo.resObj = { msg: '获取用户信息成功', body: { userId, userName, userPassword, userType, userCity, userTelephone, userSubway, userEmail } };
         next();
     } catch (error) {
