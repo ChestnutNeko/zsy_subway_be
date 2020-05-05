@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "acorn": "^7.1.1",
+    "body-parser": "^1.19.0",
     "clean-css": "^4.2.3",
     "constantinople": "^4.0.1",
     "cookie-parser": "~1.4.4",

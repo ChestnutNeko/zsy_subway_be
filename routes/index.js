@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 // 关联主程序
 var mainHandler = require('../domain/index');
+var cate = require('../controllers/index');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -54,13 +55,9 @@ router.get('/update_user', function(req, res, next) {
 });
 
 // 获取用户信息
-router.get('/user_info', function(req, res, next) {
-  mainHandler.userInfo(req, res, next);
-});
+router.post('/user_info', cate.getUserInfo);
 
 // 获取用户列表
-router.get('/all_info', function(req, res, next) {
-  mainHandler.allInfo(req, res, next);
-});
+router.post('/all_info', cate.getAllInfo);
 
 module.exports = router;
