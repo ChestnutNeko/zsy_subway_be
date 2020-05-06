@@ -52,21 +52,21 @@ subwayDao.getGoodsList = function(isCount, theLostName = "", limit, offset) {
 }
 
 // 失物收藏列表+模糊查询
-subwayDao.collectGoodsList = function(isCount, goodsName = "", limit, offset) {
+subwayDao.collectGoodsList = function(isCount, theLostName = "", limit, offset) {
     let sql = "";
     let args = [];
     if (isCount === 1) {
         sql = "SELECT COUNT(*) num FROM personal_goods";
     } else {
-        sql = "SELECT goods_name goodsName, goods_city goodsCity, goods_value goodsValue, goods_date goodsDate, goods_location goodsLocation, goods_telephone goodsTelephone " +
+        sql = "SELECT id id, the_lost_id theLostId, user_id userId, the_lost_name theLostName, the_lost_city theLostCity, the_lost_value theLostValue, the_lost_date theLostDate, the_lost_position theLostPosition, the_lost_telephone theLostTelephone, the_lost_collect theLostCollect " +
             " FROM personal_goods";
     }
     if (!!goodsName) {
-        sql += " WHERE goods_name LIKE (?)"
-        args.push("%" + goodsName + "%");
+        sql += " WHERE the_lost_name LIKE (?)"
+        args.push("%" + theLostName + "%");
     }
     if (isCount != 1) {
-        sql += '  ORDER BY goods_date LIMIT ? OFFSET ?';
+        sql += '  ORDER BY the_lost_date LIMIT ? OFFSET ?';
         args.push(limit, offset);
     }
     commonLogger.debug("[subwayDao] [collectGoodsList] sql: ", sql);
@@ -82,10 +82,10 @@ subwayDao.collectGoodsList = function(isCount, goodsName = "", limit, offset) {
         });
 }
 
-// 失物收藏（相当于将失物列表数据新增到失物收藏表中）
+// 失物收藏（添加到个人收藏中）
 subwayDao.collectLosts = function(params) {
-    let sql = "INSERT INTO the_lost_collect_list (goods_name, goods_city, goods_value, goods_date, goods_location, goods_telephone) VALUES (?,?,?,?,?,?)";
-    let args = [params.id];
+    let sql = "INSERT INTO personal_goods (id, the_lost_id, user_id, the_lost_name, the_lost_city, the_lost_value, the_lost_date, the_lost_position, the_lost_telephone, the_lost_collect) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    let args = [params.id, params.theLostId, params.userId, params.theLostName, params.theLostCity, params.theLostValue,params.theLostDate, params.theLostPosition, params.theLostTelephone, params.theLostCollect];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {
@@ -114,8 +114,8 @@ subwayDao.deleteLosts = function(params) {
 
 // 路线收藏（新增）
 subwayDao.collectRoutes = function(params) {
-    let sql = "INSERT INTO personal_routes (start, end, position) VALUES (?,?,?)";
-    let args = [params.start, params.end, params.position];
+    let sql = "INSERT INTO personal_routes (user_id, routes_name, routes_start, routes_end, routes_time, routes_collect) VALUES (?,?,?)";
+    let args = [params.userId, params.routesName, params.routesStart, params.routesEnd, params.routesTime, params.routesCollect];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {
@@ -134,7 +134,7 @@ subwayDao.getRoutesList = function(isCount, routesName = "", limit, offset) {
     if (isCount === 1) {
         sql = "SELECT COUNT(*) num FROM personal_routes";
     } else {
-        sql = "SELECT routes_id, routesId, user_name, userName, routes_name, routesName, routes_start, routesStart, routes_end, routesEnd, routes_position, routesPosiotion " +
+        sql = "SELECT id id, routes_id routesId, user_name userName, routes_name routesName, routes_start routesStart, routes_end routesEnd, routes_time routesTime, routes_collect routesCollect " +
             " FROM personal_routes";
     }
     if (!!routesName) {
@@ -142,7 +142,7 @@ subwayDao.getRoutesList = function(isCount, routesName = "", limit, offset) {
         args.push("%" + routesName + "%");
     }
     if (isCount != 1) {
-        sql += '  ORDER BY routes_id LIMIT ? OFFSET ?';
+        sql += '  ORDER BY routes_time LIMIT ? OFFSET ?';
         args.push(limit, offset);
     }
     commonLogger.debug("[subwayDao] [getRoutesList] sql: ", sql);
@@ -176,7 +176,7 @@ subwayDao.deleteRoutes = function(params) {
 // 根据用户id修改个人信息
 subwayDao.updateUser = function(params) {
     let sql = "UPDATE user_info SET ? WHERE user_id = ?";
-    let args = [parmas.id, params.name, parmas.password, params.city, params.telephone, params.subway, params.email];
+    let args = [parmas.userId, params.userName, parmas.userPassword, params.userCity, params.userTelephone, params.userSubway, params.userEmail];
 
     return process.mysqlHelper.userQueryPromise(sql, args)
         .then(function(result) {

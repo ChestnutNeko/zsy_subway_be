@@ -13,7 +13,6 @@ module.exports = {
     sqlConnect: function(sql, sqlArr, callback) {
         var pool = mysql.createPool(this.config)
         pool.getConnection((err, conn) => {
-            console.log('12345');
             if(err) {
                 console.log('error');
                 return;

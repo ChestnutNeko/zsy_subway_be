@@ -3,6 +3,7 @@ var router = express.Router();
 // 关联主程序
 var mainHandler = require('../domain/index');
 var cate = require('../controllers/index');
+var goods = require('../domain/index2');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -55,9 +56,15 @@ router.get('/update_user', function(req, res, next) {
 });
 
 // 获取用户信息
-router.post('/user_info', cate.getUserInfo);
+router.get('/user_info', function(req, res, next) {
+  mainHandler.userInfo(req, res, next);
+});
+// router.get('/user_info', cate.getUserInfo);
 
 // 获取用户列表
 router.post('/all_info', cate.getAllInfo);
+// router.get('/all_info', function(req, res, next) {
+//   goods.allInfo(req, res, next);
+// });
 
 module.exports = router;

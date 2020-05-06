@@ -97,7 +97,9 @@ mainHandler.collectGoodsList = async function(req, res, next) {
         let data = []
         for (let i of list) {
             let tmpObj = {
+                id: i.id,
                 theLostId: i.theLostId,
+                userId: i.userId,
                 theLostName: i.theLostName,
                 theLostCity: i.theLostCity,
                 theLostValue: i.theLostValue,

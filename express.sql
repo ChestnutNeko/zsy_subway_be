@@ -61,12 +61,12 @@ CREATE TABLE `personal_goods` (
   `the_lost_position` varchar(255) DEFAULT NULL COMMENT '领取点',
   `the_lost_telephone` varchar(255) DEFAULT NULL COMMENT '领取点电话',
   `the_lost_collect` int(20) DEFAULT NULL COMMENT '是否可以取消收藏',
-  PRIMARY KEY (`the_lost_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
 
 /*Data for the table `personal_goods` */
 
-insert into `personal_goods`(`id`,`the_lost_id`,`user_id`,`the_lost_name`,`the_lost_city`,`the_lost_value`,`the_lost_date`,`the_lost_position`,`the_lost_telephone`,`the_lost_collect`) values (111,20,12,'iphone6s','北京',2000,'2020-03-05 15:06:28','经海路站','13900001111',0),(121,21,24,'书包','哈尔滨',888,'2020-03-04 11:06:28','黑龙江大学站','13522345001',1);
+insert into `personal_goods`(`id`,`the_lost_id`,`user_id`,`the_lost_name`,`the_lost_city`,`the_lost_value`,`the_lost_date`,`the_lost_position`,`the_lost_telephone`,`the_lost_collect`) values (111,20,12,'iphone6s','北京',2000,'2020-03-05 15:06:28','经海路站','13900001111',0),(119,21,24,'书包','哈尔滨',888,'2020-03-04 11:06:28','黑龙江大学站','13522345001',1);
 
 /*Table structure for table `the_lost_list` */
 
