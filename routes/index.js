@@ -56,10 +56,10 @@ router.get('/update_user', function(req, res, next) {
 });
 
 // 获取用户信息
-router.get('/user_info', function(req, res, next) {
-  mainHandler.userInfo(req, res, next);
-});
-// router.get('/user_info', cate.getUserInfo);
+// router.get('/user_info', function(req, res, next) {
+//   mainHandler.userInfo(req, res, next);
+// });
+router.post('/user_info', cate.getUserInfo);
 
 // 获取用户列表
 router.post('/all_info', cate.getAllInfo);

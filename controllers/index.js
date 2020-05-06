@@ -10,7 +10,8 @@ getUserInfo = (req, res) => {
             console.log('error');
         } else {
             res.send({
-                'data': data
+                'data': data,
+                'msg': '登陆成功'
             });
         }
     }
