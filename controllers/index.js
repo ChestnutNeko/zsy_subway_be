@@ -156,6 +156,7 @@ getAllInfo = (req, res) => {
 }
 
 module.exports = {
+    insertLosts,
     getGoodsList,
     collectGoodsList,
     deleteLosts,
