@@ -20,17 +20,13 @@ router.post('/get_goods_list', cate.getGoodsList);
 router.post('/collect_goods_list', cate.collectGoodsList);
 
 // 收藏失物
-router.get('/collect_losts', function(req, res, next) {
-  mainHandler.collectLosts(req, res, next);
-});
+router.post('/collect_losts', cate.collectLosts);
 
 // 取消收藏失物
 router.post('/delete_losts', cate.deleteLosts);
 
 // 收藏路线
-router.get('/collect_routes', function(req, res, next) {
-  mainHandler.collectRoutes(req, res, next);
-});
+router.post('/collect_routes', cate.collectRoutes);
 
 // 收藏路线列表
 router.post('/get_routes_list', cate.getRoutesList);
@@ -39,9 +35,7 @@ router.post('/get_routes_list', cate.getRoutesList);
 router.post('/delete_routes', cate.deleteRoutes);
 
 // 更新用户信息
-router.get('/update_user', function(req, res, next) {
-  mainHandler.updateUser(req, res, next);
-});
+router.post('/update_user', cate.updateUser);
 
 // 获取用户信息
 // router.get('/user_info', function(req, res, next) {
