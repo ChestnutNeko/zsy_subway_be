@@ -11,14 +11,10 @@ router.get('/', function(req, res, next) {
 });
 
 // 新增失物
-router.get('/insert_losts', function(req, res, next) {
-  mainHandler.insertLosts(req, res, next);
-});
+router.post('/insert_losts', cate.insertLosts);
 
 // 失物列表
-router.get('/get_goods_list', function(req, res, next) {
-  mainHandler.getGoodsList(req, res, next);
-});
+router.post('/get_goods_list', cate.getGoodsList);
 
 // 收藏失物列表
 router.post('/collect_goods_list', cate.collectGoodsList);
@@ -29,9 +25,7 @@ router.get('/collect_losts', function(req, res, next) {
 });
 
 // 取消收藏失物
-router.get('/delete_losts', function(req, res, next) {
-  mainHandler.deleteLosts(req, res, next);
-});
+router.post('/delete_losts', cate.deleteLosts);
 
 // 收藏路线
 router.get('/collect_routes', function(req, res, next) {
@@ -42,9 +36,7 @@ router.get('/collect_routes', function(req, res, next) {
 router.post('/get_routes_list', cate.getRoutesList);
 
 // 取消收藏路线
-router.get('/delete_routes', function(req, res, next) {
-  mainHandler.deleteRoutes(req, res, next);
-});
+router.post('/delete_routes', cate.deleteRoutes);
 
 // 更新用户信息
 router.get('/update_user', function(req, res, next) {
@@ -59,8 +51,5 @@ router.post('/user_info', cate.getUserInfo);
 
 // 获取用户列表
 router.post('/all_info', cate.getAllInfo);
-// router.get('/all_info', function(req, res, next) {
-//   goods.allInfo(req, res, next);
-// });
 
 module.exports = router;
