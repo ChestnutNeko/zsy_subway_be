@@ -5,23 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
-var log4js = require('log4js');
-var logger = log4js.getLogger('app');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-log4js.configure({
-  appenders: [
-    { type: 'console', category: 'app' }
-  ]
-});
-logger.setLevel('INFO'); // 级别 > INFO 的日志才会被打印
-app.use( log4js.connectLogger(logger) ); 
-app.use(function(req, res, next){
-  res.send('ok');
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

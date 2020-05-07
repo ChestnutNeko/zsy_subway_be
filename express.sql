@@ -1,5 +1,5 @@
 /**
- * mysql
+ * mysql by zhanshiyu
  */
 
 CREATE DATABASE `zsy_subway_db`;

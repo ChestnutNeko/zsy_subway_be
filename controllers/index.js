@@ -12,6 +12,7 @@ insertLosts = (req, res) => {
             })
         } else {
             res.send({
+                'code': 0,
                 'msg': '新增失物成功'
             });
         }
@@ -26,11 +27,11 @@ getGoodsList = (req, res) => {
     var callback = (err, data) => {
         if(err) {
             res.send({
-                'code': 404,
                 'msg': 'getGoodsList error'
             })
         } else {
             res.send({
+                'code': 0,
                 'data': data,
                 'msg': '获取失物列表成功'
             });
@@ -46,11 +47,11 @@ collectGoodsList = (req, res) => {
     var callback = (err, data) => {
         if(err) {
             res.send({
-                'code': 404,
                 'msg': 'collectGoodsList error'
             })
         } else {
             res.send({
+                'code': 0,
                 'data': data
             });
         }
@@ -60,17 +61,18 @@ collectGoodsList = (req, res) => {
 
 // 收藏失物
 collectLosts = (req, res) => {
-    let { theLostId, theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone } = req.query;
-    var sql = 'INSERT INTO personal_goods (the_lost_id, the_lost_name, the_lost_city, the_lost_value, the_lost_position, the_lost_telephone) VALUES (?,?,?,?,?)';
-    var sqlArr = [theLostId, theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone];
+    let { theLostId, theLostName, theLostCity, theLostValue, theLostDate, theLostPosition, theLostTelephone } = req.query;
+    var sql = 'INSERT INTO personal_goods (the_lost_id, the_lost_name, the_lost_city, the_lost_value, the_lost_date, the_lost_position, the_lost_telephone) VALUES (?,?,?,?,?,?,?)';
+    var sqlArr = [theLostId, theLostName, theLostCity, theLostValue, theLostDate, theLostPosition, theLostTelephone];
     var callback = (err, data) => {
         if(err) {
             res.send({
-                'msg': 'insertLosts error'
+                'msg': 'error'
             })
         } else {
             res.send({
-                'msg': '新增失物成功'
+                'code': 0,
+                'msg': '收藏成功，请到个人中心查看'
             });
         }
     }
@@ -89,6 +91,7 @@ deleteLosts = (req, res) => {
             });
         } else {
             res.send({
+                'code': 0,
                 'msg': '取消收藏失物成功'
             });
         }
@@ -98,16 +101,17 @@ deleteLosts = (req, res) => {
 
 // 收藏路线
 collectRoutes = (req, res) => {
-    let { theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone } = req.query;
-    var sql = 'INSERT INTO personal_routes (user_id, routes_name, routes_start, routes_end, routes_time, routes_collect) VALUES (?,?,?,?,?,?)';
-    var sqlArr = [theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone];
+    let { userId, routesName, routesStart, routesEnd } = req.query;
+    var sql = 'INSERT INTO personal_routes (user_id, routes_name, routes_start, routes_end) VALUES (?,?,?,?)';
+    var sqlArr = [userId, routesName, routesStart, routesEnd];
     var callback = (err, data) => {
         if(err) {
             res.send({
                 'msg': 'insertLosts error'
-            })
+            });
         } else {
             res.send({
+                'code': 0,
                 'msg': '收藏路线成功'
             });
         }
@@ -123,9 +127,10 @@ getRoutesList = (req, res) => {
         if(err) {
             res.send({
                 'msg': 'getRoutesList error'
-            })
+            });
         } else {
             res.send({
+                'code': 0,
                 'data': data
             });
         }
@@ -145,6 +150,7 @@ deleteRoutes = (req, res) => {
             });
         } else {
             res.send({
+                'code': 0,
                 'msg': '取消收藏路线成功'
             });
         }
@@ -154,9 +160,9 @@ deleteRoutes = (req, res) => {
 
 // 更新用户信息
 updateUser = (req, res) => {
-    let { userName, userPassword, userCity, userTelephone, userSubway, userEmail } = req.query;
+    let { id, name, password, city, telephone, subway, email } = req.query;
     var sql = 'UPDATE user_info SET ? WHERE user_id = ?';
-    var sqlArr = [userName, userPassword, userCity, userTelephone, userSubway, userEmail];
+    var sqlArr = [id, name, password, city, telephone, subway, email ];
     var callback = (err, data) => {
         if(err) {
             res.send({
@@ -164,7 +170,7 @@ updateUser = (req, res) => {
             });
         } else {
             res.send({
-                'data': data,
+                'code': 0,
                 'msg': '更新成功'
             });
         }
@@ -184,6 +190,7 @@ getUserInfo = (req, res) => {
             });
         } else {
             res.send({
+                'code': 0,
                 'data': data,
                 'msg': '获取个人信息成功'
             });
@@ -199,11 +206,11 @@ getAllInfo = (req, res) => {
     var callback = (err, data) => {
         if(err) {
             res.send({
-                'code': 404,
                 'msg': 'user_info error'
             })
         } else {
             res.send({
+                'code': 0,
                 'list': data
             });
         }
