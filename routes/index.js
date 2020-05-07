@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 // 关联主程序
-var mainHandler = require('../domain/index');
-var cate = require('../controllers/index');
-var goods = require('../domain/index2');
+var cate = require('../dao/index');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -38,9 +36,6 @@ router.post('/delete_routes', cate.deleteRoutes);
 router.post('/update_user', cate.updateUser);
 
 // 获取用户信息
-// router.get('/user_info', function(req, res, next) {
-//   mainHandler.userInfo(req, res, next);
-// });
 router.post('/user_info', cate.getUserInfo);
 
 // 获取用户列表

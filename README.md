@@ -28,11 +28,7 @@ https://github.com/ChestnutNeko/zsy_subway_be.git
 
 /.dao mysql底层操作
 
-/.domain 接口方法
-
 /.routes 接口
-
-/.logger 日志
 
 /.express.sql 数据库
 

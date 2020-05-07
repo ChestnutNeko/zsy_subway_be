@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+
 module.exports = {
     // 数据库配置
     config: {
@@ -21,6 +22,6 @@ module.exports = {
             conn.query(sql, sqlArr, callback);
             // 释放连接
             conn.release();
-        })
+        });
     }
 }
