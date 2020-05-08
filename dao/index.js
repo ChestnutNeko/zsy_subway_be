@@ -162,7 +162,7 @@ deleteRoutes = (req, res) => {
 // 更新用户信息
 updateUser = (req, res) => {
     let { id, name, password, city, telephone, subway, email } = req.body;
-    var sql = 'UPDATE user_info SET ? WHERE user_id = ?';
+    var sql = 'UPDATE user_info SET user_name=?,user_password=?,user_city=?,user_telephone=?,user_subway=?,user_email=? WHERE user_id=?';
     var sqlArr = [id, name, password, city, telephone, subway, email ];
     var callback = (err, data) => {
         if(err) {
