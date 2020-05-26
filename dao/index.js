@@ -7,6 +7,7 @@ insertLosts = (req, res) => {
     var sqlArr = [theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone];
     var callback = (err, data) => {
         if(err) {
+            console.log('??????', err)
             res.send({
                 'msg': 'error'
             });
@@ -66,6 +67,7 @@ collectLosts = (req, res) => {
     var sqlArr = [theLostId, userId, theLostName, theLostCity, theLostValue, theLostPosition, theLostTelephone];
     var callback = (err, data) => {
         if(err) {
+            console.log('??收藏失物', err)
             res.send({
                 'msg': 'error'
             });
@@ -106,6 +108,7 @@ collectRoutes = (req, res) => {
     var sqlArr = [userId, userName, routesName, routesStart, routesEnd];
     var callback = (err, data) => {
         if(err) {
+            console.log('??收藏路线', err)
             res.send({
                 'msg': 'error'
             });
@@ -144,7 +147,6 @@ deleteRoutes = (req, res) => {
     var sql = 'DELETE FROM personal_routes WHERE routes_id = ?';
     var sqlArr = [id];
     var callback = (err, data) => {
-        // console.log('err', err)
         if(err) {
             res.send({
                 'msg': 'error'
